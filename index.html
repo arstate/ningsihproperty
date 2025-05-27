@@ -66,6 +66,25 @@
             animation: fadeInSlideUp 0.7s forwards ease-out;
             will-change: opacity, transform;
         }
+
+        /* Contact card specific styling */
+        .contact-card {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .contact-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            margin-right: 1rem;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -81,10 +100,11 @@
                     <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Proyek Baru</a>
                     <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Agen</a>
                     <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Berita</a>
-                    <a href="#" id="nav-tim-kami" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Tim Kami</a> </div>
+                    <a href="#" id="nav-tim-kami" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Tim Kami</a>
+                    </div>
             </div>
             <div class="hidden md:block">
-                <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-300 button-primary">Masuk / Daftar</button>
+                <button id="header-contact-button" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-300 button-primary">Hubungi Kami</button>
             </div>
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none">
@@ -102,7 +122,8 @@
             <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Proyek Baru</a>
             <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Agen</a>
             <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Berita</a>
-            <a href="#" id="mobile-nav-tim-kami" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Tim Kami</a> <button class="bg-blue-600 text-white px-8 py-3 rounded-lg text-xl font-medium hover:bg-blue-700 transition-colors duration-300 button-primary">Masuk / Daftar</button>
+            <a href="#" id="mobile-nav-tim-kami" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Tim Kami</a>
+            <button class="bg-blue-600 text-white px-8 py-3 rounded-lg text-xl font-medium hover:bg-blue-700 transition-colors duration-300 button-primary">Hubungi Kami</button>
         </div>
     </header>
 
@@ -212,6 +233,39 @@
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Tim Pemasaran Kami</h2>
         <div id="team-members-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             </div>
+    </section>
+
+    <section id="contact-us-section" class="hidden container mx-auto py-12 px-4 md:px-6 fade-in">
+        <button id="back-to-home-from-contact-button" class="button-primary bg-gray-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors duration-300 mt-8 mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Kembali ke Beranda
+        </button>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Hubungi Kami</h2>
+        <p class="text-lg text-gray-700 text-center mb-10 max-w-2xl mx-auto">Kami siap membantu Anda menemukan properti impian. Jangan ragu untuk menghubungi kami melalui saluran berikut:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <a href="https://wa.me/6289617323344?text=Halo%2C%20saya%20tertarik%20dengan%20properti%20Ningsih%20Property." target="_blank" class="contact-card bg-green-100 text-green-800 hover:bg-green-200">
+                <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.04 2C7.94 2 4.5 5.44 4.5 9.54c0 1.48.43 2.9.95 4.14L4 20l5.13-1.39c1.18.34 2.43.52 3.41.52 4.1 0 7.54-3.44 7.54-7.54S16.14 2 12.04 2zm3.56 12.54l-.19.11c-.69.4-1.6.8-2.61.8-1.02 0-2.02-.3-2.73-.91-.72-.61-1.2-1.46-1.5-2.22l-.11-.27c-.03-.09-.05-.2-.05-.31 0-.11.02-.22.05-.31l.05-.12c.07-.16.16-.3.26-.43.1-.13.22-.24.35-.33.13-.09.28-.16.43-.2.15-.04.3-.06.46-.06h.05c.16 0 .32.02.47.05.15.03.29.09.43.17l.11.06c.2.1.4.24.57.4.18.16.33.35.45.56l.11.2c.09.18.16.38.2.59.04.21.06.43.06.65 0 .22-.02.44-.06.65-.04.21-.11.41-.2.59l-.11.2c-.12.21-.27.4-.45.56-.18.16-.37.29-.57.4l-.11.06zm-1.5-3.04c-.03-.08-.05-.17-.05-.26 0-.09.02-.18.05-.26l.05-.12c.07-.16.16-.3.26-.43.1-.13.22-.24.35-.33.13-.09.28-.16.43-.2.15-.04.3-.06.46-.06h.05c.16 0 .32.02.47.05.15.03.29.09.43.17l.11.06c.2.1.4.24.57.4.18.16.33.35.45.56l.11.2c.09.18.16.38.2.59.04.21.06.43.06.65 0 .22-.02.44-.06.65-.04.21-.11.41-.2.59l-.11.2c-.12.21-.27.4-.45.56-.18.16-.37.29-.57.4l-.11.06z"/></svg>
+                <div>
+                    <h3 class="font-semibold text-lg">WhatsApp</h3>
+                    <p class="text-sm">Chat dengan kami sekarang!</p>
+                </div>
+            </a>
+            <a href="https://www.instagram.com/ningsihproperty" target="_blank" class="contact-card bg-pink-100 text-pink-800 hover:bg-pink-200">
+                <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.163 4.79 1.48 4.953 4.79.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.163 3.252-1.48 4.79-4.79 4.953-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.163-4.79-1.48-4.953-4.79-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.163-3.252 1.48-4.79 4.79-4.953 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.356.22-6.78 2.644-7.004 7.004-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.22 4.356 2.644 6.78 7.004 7.004 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c4.356-.22 6.78-2.644 7.004-7.004.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.22-4.356-2.644-6.78-7.004-7.004-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.44-.645-1.44-1.44s.644-1.44 1.44-1.44 1.44.645 1.44 1.44-.644 1.44-1.44 1.44z"/></svg>
+                <div>
+                    <h3 class="font-semibold text-lg">Instagram</h3>
+                    <p class="text-sm">@ningsihproperty</p>
+                </div>
+            </a>
+            <a href="https://www.facebook.com/ningsihproperty" target="_blank" class="contact-card bg-blue-100 text-blue-800 hover:bg-blue-200">
+                <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                <div>
+                    <h3 class="font-semibold text-lg">Facebook</h3>
+                    <p class="text-sm">Ningsih Property</p>
+                </div>
+            </a>
+        </div>
     </section>
 
     <footer class="bg-gray-900 text-white py-10 px-4 md:px-6 mt-12">
@@ -402,14 +456,19 @@
         const heroSection = document.getElementById('hero-section');
         const propertyListingSection = document.getElementById('property-listing-section');
         const propertyDetailSection = document.getElementById('property-detail-section');
-        const ourTeamSection = document.getElementById('our-team-section'); // New team section element
+        const ourTeamSection = document.getElementById('our-team-section');
+        const contactUsSection = document.getElementById('contact-us-section'); // New contact us section element
 
         const homeLogoLink = document.getElementById('home-logo-link');
-        const navBeranda = document.getElementById('nav-beranda'); // Desktop Beranda link
-        const navTimKami = document.getElementById('nav-tim-kami'); // Desktop Tim Kami link
-        const mobileNavBeranda = document.getElementById('mobile-nav-beranda'); // Mobile Beranda link
-        const mobileNavTimKami = document.getElementById('mobile-nav-tim-kami'); // Mobile Tim Kami link
-        const backToHomeFromTeamButton = document.getElementById('back-to-home-from-team-button'); // Back button from team page
+        const navBeranda = document.getElementById('nav-beranda');
+        const navTimKami = document.getElementById('nav-tim-kami');
+        // const navHubungiKami = document.getElementById('nav-hubungi-kami'); // Desktop Hubungi Kami link - REMOVED
+        const mobileNavBeranda = document.getElementById('mobile-nav-beranda');
+        const mobileNavTimKami = document.getElementById('mobile-nav-tim-kami');
+        // const mobileNavHubungiKami = document.getElementById('mobile-nav-hubungi-kami'); // Mobile Hubungi Kami link - REMOVED
+        const headerContactButton = document.getElementById('header-contact-button'); // Header button
+        const backToHomeFromTeamButton = document.getElementById('back-to-home-from-team-button');
+        const backToHomeFromContactButton = document.getElementById('back-to-home-from-contact-button'); // Back button from contact page
 
         const propertyListDiv = document.getElementById('property-list');
         const searchButton = document.getElementById('search-button');
@@ -433,14 +492,13 @@
         const detailType = document.getElementById('detail-type');
         const detailDescription = document.getElementById('detail-description');
 
-        const teamMembersListDiv = document.getElementById('team-members-list'); // Team members list container
+        const teamMembersListDiv = document.getElementById('team-members-list');
 
-        let currentPropertyId = null; // To store the ID of the currently viewed property
+        let currentPropertyId = null;
 
 
-        // Function to render properties
         function renderProperties(filteredProperties) {
-            propertyListDiv.innerHTML = ''; // Clear existing properties
+            propertyListDiv.innerHTML = '';
             if (filteredProperties.length === 0) {
                 noResultsDiv.classList.remove('hidden');
             } else {
@@ -448,7 +506,7 @@
                 filteredProperties.forEach((property, index) => {
                     const propertyCard = document.createElement('div');
                     propertyCard.className = `bg-white rounded-xl shadow-lg overflow-hidden card property-card`;
-                    propertyCard.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                    propertyCard.style.animationDelay = `${index * 0.1}s`;
                     propertyCard.innerHTML = `
                         <img src="${property.imageUrl}" alt="${property.title}" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -478,7 +536,6 @@
                     propertyListDiv.appendChild(propertyCard);
                 });
 
-                // Add event listeners to new "Lihat Detail" buttons
                 document.querySelectorAll('.view-detail-button').forEach(button => {
                     button.addEventListener('click', (event) => {
                         const propertyId = parseInt(event.target.dataset.id);
@@ -488,13 +545,12 @@
             }
         }
 
-        // Function to render team members
         function renderTeamMembers() {
-            teamMembersListDiv.innerHTML = ''; // Clear existing team members
+            teamMembersListDiv.innerHTML = '';
             teamMembers.forEach((member, index) => {
                 const teamCard = document.createElement('div');
                 teamCard.className = `bg-white rounded-xl shadow-lg overflow-hidden text-center p-6 team-member-card`;
-                teamCard.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                teamCard.style.animationDelay = `${index * 0.1}s`;
                 teamCard.innerHTML = `
                     <img src="${member.imageUrl}" alt="${member.name}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4 border-4 border-blue-200">
                     <h3 class="text-xl font-semibold text-gray-900 mb-1">${member.name}</h3>
@@ -505,18 +561,15 @@
             });
         }
 
-        // Function to filter and sort properties
         function filterAndSortProperties() {
             let filtered = [...properties];
 
-            // Apply search filters
             const location = searchLocationInput.value.toLowerCase();
             const type = searchTypeSelect.value.toLowerCase();
             const minPrice = parseFloat(searchMinPriceInput.value) || 0;
             const maxPrice = parseFloat(searchMaxPriceInput.value) || Infinity;
 
             filtered = filtered.filter(property => {
-                // Convert price string to number for comparison
                 const propertyPrice = parseFloat(property.price.replace(/[^0-9.]/g, '')) * (property.price.includes('Milyar') ? 1000000000 : (property.price.includes('Juta') ? 1000000 : 1));
                 
                 return (
@@ -526,13 +579,11 @@
                 );
             });
 
-            // Apply filter from dropdown below search bar
             const filterType = filterTypeSelect.value.toLowerCase();
             if (filterType !== 'all') {
                 filtered = filtered.filter(property => property.type.toLowerCase() === filterType);
             }
 
-            // Apply sort
             const sortBy = sortBySelect.value;
             if (sortBy === 'harga-terendah') {
                 filtered.sort((a, b) => {
@@ -546,18 +597,17 @@
                     const priceB = parseFloat(b.price.replace(/[^0-9.]/g, '')) * (b.price.includes('Milyar') ? 1000000000 : (b.price.includes('Juta') ? 1000000 : 1));
                     return priceB - priceA;
                 });
-            } else { // 'terbaru' or default
-                filtered.sort((a, b) => b.id - a.id); // Assuming higher ID means newer
+            } else {
+                filtered.sort((a, b) => b.id - a.id);
             }
 
             renderProperties(filtered);
         }
 
-        // Function to display property detail
         function showPropertyDetail(id) {
             const property = properties.find(p => p.id === id);
             if (property) {
-                currentPropertyId = id; // Store the ID of the currently viewed property for the contact button
+                currentPropertyId = id;
                 detailImage.src = property.imageUrl;
                 detailImage.alt = property.title;
                 detailTitle.textContent = property.title;
@@ -566,42 +616,51 @@
                 detailBeds.textContent = property.beds > 0 ? property.beds : 'N/A';
                 detailBaths.textContent = property.baths > 0 ? property.baths : 'N/A';
                 detailArea.textContent = property.area;
-                detailType.textContent = property.type.charAt(0).toUpperCase() + property.type.slice(1); // Capitalize first letter
+                detailType.textContent = property.type.charAt(0).toUpperCase() + property.type.slice(1);
                 detailDescription.textContent = property.description;
 
-                // Hide other sections and show detail section
                 heroSection.classList.add('hidden');
                 propertyListingSection.classList.add('hidden');
-                ourTeamSection.classList.add('hidden'); // Hide team section
+                ourTeamSection.classList.add('hidden');
+                contactUsSection.classList.add('hidden'); // Hide contact us section
                 propertyDetailSection.classList.remove('hidden');
-                propertyDetailSection.classList.add('fade-in'); // Apply fade-in animation
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+                propertyDetailSection.classList.add('fade-in');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        // Function to show the team section
         function showTeamSection() {
-            // Hide other sections and show team section
             heroSection.classList.add('hidden');
             propertyListingSection.classList.add('hidden');
-            propertyDetailSection.classList.add('hidden'); // Hide property detail section
+            propertyDetailSection.classList.add('hidden');
+            contactUsSection.classList.add('hidden'); // Hide contact us section
             ourTeamSection.classList.remove('hidden');
-            ourTeamSection.classList.add('fade-in'); // Apply fade-in animation
-            renderTeamMembers(); // Render team members when showing the section
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+            ourTeamSection.classList.add('fade-in');
+            renderTeamMembers();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Function to go back to property list (used by "Kembali ke Daftar Properti" button and Ningsih Property logo)
+        // Function to show the contact us section
+        function showContactUsSection() {
+            heroSection.classList.add('hidden');
+            propertyListingSection.classList.add('hidden');
+            propertyDetailSection.classList.add('hidden');
+            ourTeamSection.classList.add('hidden');
+            contactUsSection.classList.remove('hidden');
+            contactUsSection.classList.add('fade-in');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         function backToList() {
             propertyDetailSection.classList.add('hidden');
-            ourTeamSection.classList.add('hidden'); // Hide team section
+            ourTeamSection.classList.add('hidden');
+            contactUsSection.classList.add('hidden'); // Hide contact us section
             heroSection.classList.remove('hidden');
             propertyListingSection.classList.remove('hidden');
-            filterAndSortProperties(); // Re-render properties in case filters were active
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+            filterAndSortProperties();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Function to handle contact agent via WhatsApp
         function contactAgent() {
             if (currentPropertyId) {
                 const property = properties.find(p => p.id === currentPropertyId);
@@ -612,8 +671,6 @@
                     window.open(whatsappUrl, '_blank');
                 } else {
                     console.error('Nomor telepon agen tidak ditemukan untuk properti ini.');
-                    // You could add a simple message box here instead of console.error
-                    // For example: alert('Maaf, informasi kontak agen tidak tersedia.');
                 }
             } else {
                 console.error('Tidak ada properti yang sedang dilihat.');
@@ -626,12 +683,18 @@
         filterTypeSelect.addEventListener('change', filterAndSortProperties);
         backToListButton.addEventListener('click', backToList);
         contactAgentButton.addEventListener('click', contactAgent);
-        homeLogoLink.addEventListener('click', backToList); // Ningsih Property logo to home
-        navBeranda.addEventListener('click', backToList); // Desktop Beranda link to home
-        mobileNavBeranda.addEventListener('click', backToList); // Mobile Beranda link to home
-        navTimKami.addEventListener('click', showTeamSection); // Desktop Tim Kami link to team section
-        mobileNavTimKami.addEventListener('click', showTeamSection); // Mobile Tim Kami link to team section
-        backToHomeFromTeamButton.addEventListener('click', backToList); // Back button from team page to home
+        homeLogoLink.addEventListener('click', backToList);
+        navBeranda.addEventListener('click', backToList);
+        mobileNavBeranda.addEventListener('click', backToList);
+        navTimKami.addEventListener('click', showTeamSection);
+        mobileNavTimKami.addEventListener('click', showTeamSection);
+        backToHomeFromTeamButton.addEventListener('click', backToList);
+        
+        // Removed: navHubungiKami.addEventListener('click', showContactUsSection);
+        // Removed: mobileNavHubungiKami.addEventListener('click', showContactUsSection);
+        headerContactButton.addEventListener('click', showContactUsSection);
+        backToHomeFromContactButton.addEventListener('click', backToList);
+
 
         // Initial render on page load
         window.onload = function() {
