@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properti Impian Anda - Cari Rumah, Apartemen, dan Lainnya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for smooth animations and font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background */
+        }
+        .card {
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; /* Slightly increased duration */
+            will-change: transform, box-shadow; /* Hint for browser optimization */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .button-primary {
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            will-change: background-color, transform; /* Hint for browser optimization */
+        }
+        .button-primary:hover {
+            background-color: #1a73e8; /* Darker blue on hover */
+            transform: translateY(-2px);
+        }
+        .input-field {
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .input-field:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+            outline: none;
+        }
+        /* Animation for property cards on load */
+        .property-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 0.7s forwards ease-out; /* Increased duration for smoother feel */
+            will-change: opacity, transform; /* Hint for browser optimization */
+        }
+        @keyframes fadeInSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Fade in for detail section and team section */
+        .fade-in {
+            animation: fadeIn 0.7s forwards ease-out; /* Increased duration for smoother feel */
+            will-change: opacity; /* Hint for browser optimization */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Team member card animation */
+        .team-member-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 0.7s forwards ease-out;
+            will-change: opacity, transform;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-sm py-4 px-6 md:px-12 fixed w-full z-10">
+        <nav class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-8">
+                <a href="#" id="home-logo-link" class="text-2xl font-bold text-blue-600">Ningsih Property</a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#" id="nav-beranda" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Beranda</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Jual</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Sewa</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Proyek Baru</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Agen</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Berita</a>
+                    <a href="#" id="nav-tim-kami" class="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Tim Kami</a> </div>
+            </div>
+            <div class="hidden md:block">
+                <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-300 button-primary">Masuk / Daftar</button>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-white bg-opacity-95 z-20 flex flex-col items-center justify-center space-y-6">
+            <button id="close-mobile-menu" class="absolute top-6 right-6 text-gray-600 hover:text-blue-600 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <a href="#" id="mobile-nav-beranda" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Beranda</a>
+            <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Jual</a>
+            <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Sewa</a>
+            <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Proyek Baru</a>
+            <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Agen</a>
+            <a href="#" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Berita</a>
+            <a href="#" id="mobile-nav-tim-kami" class="text-gray-800 text-2xl hover:text-blue-600 font-medium transition-colors duration-300">Tim Kami</a> <button class="bg-blue-600 text-white px-8 py-3 rounded-lg text-xl font-medium hover:bg-blue-700 transition-colors duration-300 button-primary">Masuk / Daftar</button>
+        </div>
+    </header>
+
+    <section id="hero-section" class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-24 md:py-32 flex items-center justify-center min-h-screen-75">
+        <div class="container mx-auto text-center px-4">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">Temukan Properti Impian Anda</h1>
+            <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto opacity-90">Jelajahi ribuan listing properti terbaik di seluruh Indonesia.</p>
+
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <input type="text" id="search-location" placeholder="Lokasi (mis. Surabaya)" class="input-field p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 text-gray-800">
+                    <select id="search-type" class="input-field p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 text-gray-800">
+                        <option value="">Tipe Properti</option>
+                        <option value="apartemen">Apartemen</option>
+                        <option value="rumah">Rumah</option>
+                        <option value="tanah">Tanah</option>
+                        <option value="ruko">Ruko</option>
+                    </select>
+                    <input type="number" id="search-min-price" placeholder="Harga Min (IDR)" class="input-field p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 text-gray-800">
+                    <input type="number" id="search-max-price" placeholder="Harga Max (IDR)" class="input-field p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 text-gray-800">
+                </div>
+                <button id="search-button" class="button-primary bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold mt-6 w-full md:w-auto hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                    Cari Properti
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main id="property-listing-section" class="container mx-auto py-12 px-4 md:px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Properti Unggulan di Surabaya</h2>
+
+        <div class="flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-lg shadow-md mb-8">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <label for="sort-by" class="text-gray-700 font-medium">Urutkan Berdasarkan:</label>
+                <select id="sort-by" class="input-field p-2 border border-gray-300 rounded-lg text-gray-800">
+                    <option value="terbaru">Terbaru</option>
+                    <option value="harga-terendah">Harga Terendah</option>
+                    <option value="harga-tertinggi">Harga Tertinggi</option>
+                </select>
+            </div>
+            <div class="flex items-center space-x-4">
+                <label for="filter-type" class="text-gray-700 font-medium">Filter Tipe:</label>
+                <select id="filter-type" class="input-field p-2 border border-gray-300 rounded-lg text-gray-800">
+                    <option value="all">Semua</option>
+                    <option value="apartemen">Apartemen</option>
+                    <option value="rumah">Rumah</option>
+                    <option value="tanah">Tanah</option>
+                    <option value="ruko">Ruko</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="property-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            </div>
+
+        <div id="no-results" class="text-center text-gray-600 text-lg py-12 hidden">
+            Maaf, tidak ada properti yang cocok dengan kriteria pencarian Anda.
+        </div>
+    </main>
+
+    <section id="property-detail-section" class="hidden container mx-auto py-12 px-4 md:px-6 fade-in">
+        <button id="back-to-list-button" class="button-primary bg-gray-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors duration-300 mt-8 mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Kembali ke Daftar Properti
+        </button>
+
+        <div id="property-detail-content" class="bg-white rounded-xl shadow-lg overflow-hidden p-6 md:p-8">
+            <img id="detail-image" src="" alt="Property Image" class="w-full h-96 object-cover rounded-lg mb-6">
+            <h2 id="detail-title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"></h2>
+            <p id="detail-price" class="text-blue-600 font-bold text-3xl mb-6"></p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Informasi Utama</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg><span id="detail-location"></span></li>
+                        <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 4a1 1 0 011 1v1a1 1 0 11-2 0V7a1 1 0 011-1zM6 6a1 1 0 011 1v1a1 1 0 11-2 0V7a1 1 0 011-1zm-2 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm12 0a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM2 14a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm16 0a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM10 18a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1z"></path></svg><span id="detail-beds"></span> Kamar Tidur</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg><span id="detail-baths"></span> Kamar Mandi</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 5.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v10a.5.5 0 01-.5.5H3a.5.5 0 01-.5-.5v-10zM3 6v9h14V6H3z" clip-rule="evenodd"></path></svg><span id="detail-area"></span></li>
+                        <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 6a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V6zm4 0a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm-2 4a1 1 0 011-1h10a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg><span id="detail-type"></span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Deskripsi Properti</h3>
+                    <p id="detail-description" class="text-gray-700 leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mt-4">
+                        Properti ini menawarkan kenyamanan dan aksesibilitas, ideal untuk keluarga atau investasi. Terletak di lingkungan yang tenang namun dekat dengan fasilitas penting seperti sekolah, pusat perbelanjaan, dan transportasi umum.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button id="contact-agent-button" class="button-primary bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                    Hubungi Agen
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="our-team-section" class="hidden container mx-auto py-12 px-4 md:px-6 fade-in">
+        <button id="back-to-home-from-team-button" class="button-primary bg-gray-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors duration-300 mt-8 mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Kembali ke Beranda
+        </button>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Tim Pemasaran Kami</h2>
+        <div id="team-members-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-10 px-4 md:px-6 mt-12">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-blue-400">Ningsih Property</h3>
+                <p class="text-gray-400 text-sm">Temukan properti impian Anda dengan mudah dan cepat. Kami menghubungkan Anda dengan ribuan listing terbaik.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Jelajahi</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Jual Properti</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Sewa Properti</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Proyek Baru</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Agen Properti</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Bantuan</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">FAQ</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Hubungi Kami</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Ikuti Kami</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.488 2.016A11.954 11.954 0 0012 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10c0-.127-.008-.255-.012-.382a10.927 10.927 0 00-.332-3.412 11.025 11.025 0 00-2.16-3.088A10.95 10.95 0 0012.488 2.016zM12 4.5c.823 0 1.63.097 2.404.287l-.004.001.004-.001a8.5 8.5 0 014.248 2.946 8.5 8.5 0 011.666 4.767c0 4.694-3.806 8.5-8.5 8.5S3.5 16.694 3.5 12 7.306 3.5 12 3.5zm0 2c-2.485 0-4.5 2.015-4.5 4.5s2.015 4.5 4.5 4.5 4.5-2.015 4.5-4.5-2.015-4.5-4.5-4.5zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.06 8.324a.75.75 0 00-.706-.576H13.5v-1.5a.75.75 0 00-.75-.75h-1.5a.75.75 0 00-.75.75v1.5h-1.5a.75.75 0 00-.75.75v1.5c0 .414.336.75.75.75h1.5v1.5a.75.75 0 00.75.75h1.5a.75.75 0 00.75-.75v-1.5h1.5a.75.75 0 00.75-.75v-1.5z" clip-rule="evenodd" /></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
+            &copy; 2025 Ningsih Property. Hak Cipta Dilindungi.
+        </div>
+    </footer>
+
+    <script>
+        // Mock property data
+        const properties = [
+            {
+                id: 1,
+                title: 'Apartemen Mewah di Pusat Kota Surabaya',
+                price: 'IDR 1.8 Milyar',
+                location: 'Surabaya Pusat',
+                beds: 3,
+                baths: 2,
+                area: '120 m²',
+                type: 'apartemen',
+                imageUrl: 'https://placehold.co/800x500/007bff/ffffff?text=Apartemen+Mewah',
+                description: 'Apartemen mewah ini terletak strategis di jantung kota Surabaya, menawarkan pemandangan kota yang menakjubkan dan akses mudah ke pusat bisnis, perbelanjaan, dan hiburan. Dilengkapi dengan fasilitas modern dan desain interior yang elegan, menjadikannya pilihan ideal untuk gaya hidup perkotaan yang dinamis.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 2,
+                title: 'Rumah Modern Minimalis di Citraland',
+                price: 'IDR 2.5 Milyar',
+                location: 'Surabaya Barat',
+                beds: 4,
+                baths: 3,
+                area: '180 m²',
+                type: 'rumah',
+                imageUrl: 'https://placehold.co/800x500/28a745/ffffff?text=Rumah+Modern',
+                description: 'Rumah modern minimalis ini berlokasi di kawasan elit Citraland, Surabaya Barat. Desain arsitektur yang kontemporer dengan sentuhan minimalis menciptakan hunian yang nyaman dan fungsional. Lingkungan yang asri dan fasilitas perumahan lengkap menambah nilai investasi properti ini.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 3,
+                title: 'Apartemen Studio Nyaman di Dekat Kampus',
+                price: 'IDR 650 Juta',
+                location: 'Surabaya Timur',
+                beds: 1,
+                baths: 1,
+                area: '35 m²',
+                type: 'apartemen',
+                imageUrl: 'https://placehold.co/800x500/ffc107/000000?text=Apartemen+Studio',
+                description: 'Apartemen studio yang nyaman dan efisien ini sangat cocok untuk mahasiswa atau profesional muda. Terletak di dekat beberapa kampus ternama di Surabaya Timur, menawarkan akses mudah ke transportasi umum, pusat perbelanjaan, dan area kuliner. Desain interior yang cerdas memaksimalkan setiap ruang.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 4,
+                title: 'Tanah Strategis untuk Investasi',
+                price: 'IDR 5 Milyar',
+                location: 'Surabaya Selatan',
+                beds: 0,
+                baths: 0,
+                area: '500 m²',
+                type: 'tanah',
+                imageUrl: 'https://placehold.co/800x500/dc3545/ffffff?text=Tanah+Strategis',
+                description: 'Tanah kavling seluas 500 m² ini merupakan peluang investasi yang sangat menjanjikan di Surabaya Selatan. Berada di lokasi strategis dengan potensi pengembangan yang tinggi, cocok untuk pembangunan perumahan, komersial, atau investasi jangka panjang. Akses jalan yang mudah dan lingkungan yang berkembang pesat.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 5,
+                title: 'Ruko 3 Lantai di Area Komersial',
+                price: 'IDR 3.2 Milyar',
+                location: 'Surabaya Utara',
+                beds: 0,
+                baths: 0,
+                area: '200 m²',
+                type: 'ruko',
+                imageUrl: 'https://placehold.co/800x500/6f42c1/ffffff?text=Ruko+Komersial',
+                description: 'Ruko 3 lantai ini berlokasi di area komersial yang ramai di Surabaya Utara, sangat ideal untuk berbagai jenis usaha. Dengan desain modern dan ruang yang luas, ruko ini menawarkan visibilitas tinggi dan aksesibilitas yang sangat baik bagi pelanggan. Potensi bisnis yang besar di lokasi ini.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 6,
+                title: 'Rumah Keluarga Besar di Pakuwon Indah',
+                price: 'IDR 3.8 Milyar',
+                location: 'Surabaya Barat',
+                beds: 5,
+                baths: 4,
+                area: '250 m²',
+                type: 'rumah',
+                imageUrl: 'https://placehold.co/800x500/fd7e14/ffffff?text=Rumah+Keluarga',
+                description: 'Rumah keluarga besar ini berlokasi di kawasan prestisius Pakuwon Indah, Surabaya Barat. Menawarkan ruang yang luas dengan 5 kamar tidur dan 4 kamar mandi, sangat cocok untuk keluarga yang mencari kenyamanan dan kemewahan. Fasilitas perumahan lengkap dan lingkungan yang aman.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 7,
+                title: 'Apartemen dengan Pemandangan Kota',
+                price: 'IDR 1.5 Milyar',
+                location: 'Surabaya Pusat',
+                beds: 2,
+                baths: 2,
+                area: '90 m²',
+                type: 'apartemen',
+                imageUrl: 'https://placehold.co/800x500/20c997/ffffff?text=Apartemen+View',
+                description: 'Nikmati pemandangan kota Surabaya yang spektakuler dari apartemen ini. Dengan 2 kamar tidur dan 2 kamar mandi, unit ini menawarkan kenyamanan dan gaya hidup modern. Terletak di lokasi yang sangat strategis, dekat dengan berbagai fasilitas kota.',
+                agentPhone: '6289617323344'
+            },
+            {
+                id: 8,
+                title: 'Tanah Kavling Siap Bangun',
+                price: 'IDR 800 Juta',
+                location: 'Surabaya Timur',
+                beds: 0,
+                baths: 0,
+                area: '150 m²',
+                type: 'tanah',
+                imageUrl: 'https://placehold.co/800x500/6610f2/ffffff?text=Tanah+Kavling',
+                description: 'Tanah kavling siap bangun seluas 150 m² di Surabaya Timur. Ideal untuk membangun rumah impian Anda. Berada di lingkungan yang sedang berkembang pesat, dengan akses mudah ke jalan utama dan fasilitas umum. Investasi cerdas untuk masa depan.',
+                agentPhone: '6289617323344'
+            }
+        ];
+
+        // Mock team data
+        const teamMembers = [
+            {
+                id: 1,
+                name: 'Budi Santoso',
+                title: 'Manajer Pemasaran',
+                imageUrl: 'https://placehold.co/200x200/4CAF50/ffffff?text=Budi',
+                description: 'Berpengalaman lebih dari 10 tahun di industri properti, Budi memimpin tim dengan strategi inovatif dan pemahaman pasar yang mendalam.'
+            },
+            {
+                id: 2,
+                name: 'Siti Aminah',
+                title: 'Spesialis Penjualan Senior',
+                imageUrl: 'https://placehold.co/200x200/2196F3/ffffff?text=Siti',
+                description: 'Siti dikenal dengan kemampuan negosiasi yang luar biasa dan rekam jejak penjualan yang konsisten. Dia selalu siap membantu klien menemukan properti yang sempurna.'
+            },
+            {
+                id: 3,
+                name: 'Andi Wijaya',
+                title: 'Konsultan Properti',
+                imageUrl: 'https://placehold.co/200x200/FFC107/000000?text=Andi',
+                description: 'Andi memiliki pengetahuan luas tentang pasar properti lokal dan selalu memberikan saran yang personal dan informatif kepada setiap klien.'
+            },
+            {
+                id: 4,
+                name: 'Dewi Lestari',
+                title: 'Koordinator Pemasaran Digital',
+                imageUrl: 'https://placehold.co/200x200/E91E63/ffffff?text=Dewi',
+                description: 'Dewi bertanggung jawab atas strategi pemasaran online, memastikan properti kami menjangkau audiens yang luas melalui platform digital.'
+            }
+        ];
+
+        const heroSection = document.getElementById('hero-section');
+        const propertyListingSection = document.getElementById('property-listing-section');
+        const propertyDetailSection = document.getElementById('property-detail-section');
+        const ourTeamSection = document.getElementById('our-team-section'); // New team section element
+
+        const homeLogoLink = document.getElementById('home-logo-link');
+        const navBeranda = document.getElementById('nav-beranda'); // Desktop Beranda link
+        const navTimKami = document.getElementById('nav-tim-kami'); // Desktop Tim Kami link
+        const mobileNavBeranda = document.getElementById('mobile-nav-beranda'); // Mobile Beranda link
+        const mobileNavTimKami = document.getElementById('mobile-nav-tim-kami'); // Mobile Tim Kami link
+        const backToHomeFromTeamButton = document.getElementById('back-to-home-from-team-button'); // Back button from team page
+
+        const propertyListDiv = document.getElementById('property-list');
+        const searchButton = document.getElementById('search-button');
+        const searchLocationInput = document.getElementById('search-location');
+        const searchTypeSelect = document.getElementById('search-type');
+        const searchMinPriceInput = document.getElementById('search-min-price');
+        const searchMaxPriceInput = document.getElementById('search-max-price');
+        const sortBySelect = document.getElementById('sort-by');
+        const filterTypeSelect = document.getElementById('filter-type');
+        const noResultsDiv = document.getElementById('no-results');
+
+        const backToListButton = document.getElementById('back-to-list-button');
+        const contactAgentButton = document.getElementById('contact-agent-button');
+        const detailImage = document.getElementById('detail-image');
+        const detailTitle = document.getElementById('detail-title');
+        const detailPrice = document.getElementById('detail-price');
+        const detailLocation = document.getElementById('detail-location');
+        const detailBeds = document.getElementById('detail-beds');
+        const detailBaths = document.getElementById('detail-baths');
+        const detailArea = document.getElementById('detail-area');
+        const detailType = document.getElementById('detail-type');
+        const detailDescription = document.getElementById('detail-description');
+
+        const teamMembersListDiv = document.getElementById('team-members-list'); // Team members list container
+
+        let currentPropertyId = null; // To store the ID of the currently viewed property
+
+
+        // Function to render properties
+        function renderProperties(filteredProperties) {
+            propertyListDiv.innerHTML = ''; // Clear existing properties
+            if (filteredProperties.length === 0) {
+                noResultsDiv.classList.remove('hidden');
+            } else {
+                noResultsDiv.classList.add('hidden');
+                filteredProperties.forEach((property, index) => {
+                    const propertyCard = document.createElement('div');
+                    propertyCard.className = `bg-white rounded-xl shadow-lg overflow-hidden card property-card`;
+                    propertyCard.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                    propertyCard.innerHTML = `
+                        <img src="${property.imageUrl}" alt="${property.title}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">${property.title}</h3>
+                            <p class="text-blue-600 font-bold text-2xl mb-3">${property.price}</p>
+                            <div class="flex items-center text-gray-600 text-sm mb-4">
+                                <svg class="w-4 h-4 mr-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                                <span>${property.location}</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-gray-700 text-sm">
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 4a1 1 0 011 1v1a1 1 0 11-2 0V7a1 1 0 011-1zM6 6a1 1 0 011 1v1a1 1 0 11-2 0V7a1 1 0 011-1zm-2 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm12 0a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM2 14a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm16 0a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM10 18a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1z"></path></svg>
+                                    <span>${property.beds} Kamar Tidur</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                                    <span>${property.baths} Kamar Mandi</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 5.5a.5.5 0 01.5-.5h14a.5.5 0 01.5.5v10a.5.5 0 01-.5.5H3a.5.5 0 01-.5-.5v-10zM3 6v9h14V6H3z" clip-rule="evenodd"></path></svg>
+                                    <span>${property.area}</span>
+                                </div>
+                            </div>
+                            <button class="mt-5 w-full bg-blue-500 text-white py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors duration-300 button-primary view-detail-button" data-id="${property.id}">Lihat Detail</button>
+                        </div>
+                    `;
+                    propertyListDiv.appendChild(propertyCard);
+                });
+
+                // Add event listeners to new "Lihat Detail" buttons
+                document.querySelectorAll('.view-detail-button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const propertyId = parseInt(event.target.dataset.id);
+                        showPropertyDetail(propertyId);
+                    });
+                });
+            }
+        }
+
+        // Function to render team members
+        function renderTeamMembers() {
+            teamMembersListDiv.innerHTML = ''; // Clear existing team members
+            teamMembers.forEach((member, index) => {
+                const teamCard = document.createElement('div');
+                teamCard.className = `bg-white rounded-xl shadow-lg overflow-hidden text-center p-6 team-member-card`;
+                teamCard.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                teamCard.innerHTML = `
+                    <img src="${member.imageUrl}" alt="${member.name}" class="w-32 h-32 rounded-full mx-auto object-cover mb-4 border-4 border-blue-200">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-1">${member.name}</h3>
+                    <p class="text-blue-600 font-medium mb-3">${member.title}</p>
+                    <p class="text-gray-700 text-sm leading-relaxed">${member.description}</p>
+                `;
+                teamMembersListDiv.appendChild(teamCard);
+            });
+        }
+
+        // Function to filter and sort properties
+        function filterAndSortProperties() {
+            let filtered = [...properties];
+
+            // Apply search filters
+            const location = searchLocationInput.value.toLowerCase();
+            const type = searchTypeSelect.value.toLowerCase();
+            const minPrice = parseFloat(searchMinPriceInput.value) || 0;
+            const maxPrice = parseFloat(searchMaxPriceInput.value) || Infinity;
+
+            filtered = filtered.filter(property => {
+                // Convert price string to number for comparison
+                const propertyPrice = parseFloat(property.price.replace(/[^0-9.]/g, '')) * (property.price.includes('Milyar') ? 1000000000 : (property.price.includes('Juta') ? 1000000 : 1));
+                
+                return (
+                    (location === '' || property.location.toLowerCase().includes(location)) &&
+                    (type === '' || property.type.toLowerCase() === type) &&
+                    (propertyPrice >= minPrice && propertyPrice <= maxPrice)
+                );
+            });
+
+            // Apply filter from dropdown below search bar
+            const filterType = filterTypeSelect.value.toLowerCase();
+            if (filterType !== 'all') {
+                filtered = filtered.filter(property => property.type.toLowerCase() === filterType);
+            }
+
+            // Apply sort
+            const sortBy = sortBySelect.value;
+            if (sortBy === 'harga-terendah') {
+                filtered.sort((a, b) => {
+                    const priceA = parseFloat(a.price.replace(/[^0-9.]/g, '')) * (a.price.includes('Milyar') ? 1000000000 : (a.price.includes('Juta') ? 1000000 : 1));
+                    const priceB = parseFloat(b.price.replace(/[^0-9.]/g, '')) * (b.price.includes('Milyar') ? 1000000000 : (b.price.includes('Juta') ? 1000000 : 1));
+                    return priceA - priceB;
+                });
+            } else if (sortBy === 'harga-tertinggi') {
+                filtered.sort((a, b) => {
+                    const priceA = parseFloat(a.price.replace(/[^0-9.]/g, '')) * (a.price.includes('Milyar') ? 1000000000 : (a.price.includes('Juta') ? 1000000 : 1));
+                    const priceB = parseFloat(b.price.replace(/[^0-9.]/g, '')) * (b.price.includes('Milyar') ? 1000000000 : (b.price.includes('Juta') ? 1000000 : 1));
+                    return priceB - priceA;
+                });
+            } else { // 'terbaru' or default
+                filtered.sort((a, b) => b.id - a.id); // Assuming higher ID means newer
+            }
+
+            renderProperties(filtered);
+        }
+
+        // Function to display property detail
+        function showPropertyDetail(id) {
+            const property = properties.find(p => p.id === id);
+            if (property) {
+                currentPropertyId = id; // Store the ID of the currently viewed property for the contact button
+                detailImage.src = property.imageUrl;
+                detailImage.alt = property.title;
+                detailTitle.textContent = property.title;
+                detailPrice.textContent = property.price;
+                detailLocation.textContent = property.location;
+                detailBeds.textContent = property.beds > 0 ? property.beds : 'N/A';
+                detailBaths.textContent = property.baths > 0 ? property.baths : 'N/A';
+                detailArea.textContent = property.area;
+                detailType.textContent = property.type.charAt(0).toUpperCase() + property.type.slice(1); // Capitalize first letter
+                detailDescription.textContent = property.description;
+
+                // Hide other sections and show detail section
+                heroSection.classList.add('hidden');
+                propertyListingSection.classList.add('hidden');
+                ourTeamSection.classList.add('hidden'); // Hide team section
+                propertyDetailSection.classList.remove('hidden');
+                propertyDetailSection.classList.add('fade-in'); // Apply fade-in animation
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+            }
+        }
+
+        // Function to show the team section
+        function showTeamSection() {
+            // Hide other sections and show team section
+            heroSection.classList.add('hidden');
+            propertyListingSection.classList.add('hidden');
+            propertyDetailSection.classList.add('hidden'); // Hide property detail section
+            ourTeamSection.classList.remove('hidden');
+            ourTeamSection.classList.add('fade-in'); // Apply fade-in animation
+            renderTeamMembers(); // Render team members when showing the section
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+        }
+
+        // Function to go back to property list (used by "Kembali ke Daftar Properti" button and Ningsih Property logo)
+        function backToList() {
+            propertyDetailSection.classList.add('hidden');
+            ourTeamSection.classList.add('hidden'); // Hide team section
+            heroSection.classList.remove('hidden');
+            propertyListingSection.classList.remove('hidden');
+            filterAndSortProperties(); // Re-render properties in case filters were active
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+        }
+
+        // Function to handle contact agent via WhatsApp
+        function contactAgent() {
+            if (currentPropertyId) {
+                const property = properties.find(p => p.id === currentPropertyId);
+                if (property && property.agentPhone) {
+                    const phoneNumber = property.agentPhone;
+                    const message = encodeURIComponent(`Halo, saya tertarik dengan properti "${property.title}" (${property.location}, ${property.price}). Bisakah saya mendapatkan informasi lebih lanjut?`);
+                    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                    window.open(whatsappUrl, '_blank');
+                } else {
+                    console.error('Nomor telepon agen tidak ditemukan untuk properti ini.');
+                    // You could add a simple message box here instead of console.error
+                    // For example: alert('Maaf, informasi kontak agen tidak tersedia.');
+                }
+            } else {
+                console.error('Tidak ada properti yang sedang dilihat.');
+            }
+        }
+
+        // Event Listeners
+        searchButton.addEventListener('click', filterAndSortProperties);
+        sortBySelect.addEventListener('change', filterAndSortProperties);
+        filterTypeSelect.addEventListener('change', filterAndSortProperties);
+        backToListButton.addEventListener('click', backToList);
+        contactAgentButton.addEventListener('click', contactAgent);
+        homeLogoLink.addEventListener('click', backToList); // Ningsih Property logo to home
+        navBeranda.addEventListener('click', backToList); // Desktop Beranda link to home
+        mobileNavBeranda.addEventListener('click', backToList); // Mobile Beranda link to home
+        navTimKami.addEventListener('click', showTeamSection); // Desktop Tim Kami link to team section
+        mobileNavTimKami.addEventListener('click', showTeamSection); // Mobile Tim Kami link to team section
+        backToHomeFromTeamButton.addEventListener('click', backToList); // Back button from team page to home
+
+        // Initial render on page load
+        window.onload = function() {
+            filterAndSortProperties();
+
+            // Mobile menu functionality
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.remove('hidden');
+            });
+
+            closeMobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        };
+    </script>
+</body>
+</html>
